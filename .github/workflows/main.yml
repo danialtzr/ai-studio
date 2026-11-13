@@ -1,0 +1,15 @@
+name: AI Studio test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-worker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit test Worker
+        run: |
+          echo "Calling test Worker..."
+          curl -sS https://ai-studio-test.daniel-taghizade6441.workers.dev/ | tee worker-response.json
+          echo "--- response above ---"
+          grep -q hello-ai-studio worker-response.json && echo "TEST PASSED: test row found" || (echo "TEST FAILED: test row not found" && exit 1)
